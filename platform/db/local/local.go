@@ -1,7 +1,6 @@
 package local
 
 import (
-	"errors"
 	"fmt"
 )
 
@@ -37,8 +36,5 @@ func (ldb *DB) SaveCriticalResources(value string) error {
 }
 
 func (ldb *DB) GetMonitors() ([]Monitor, error) {
-	if len(ldb.monitors) == 0 {
-		return nil, errors.New("there are not resources to check")
-	}
 	return ldb.monitors, nil
 }

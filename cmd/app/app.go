@@ -29,8 +29,9 @@ func Start() {
 	localDb := localDb.New()
 	localRepository := local.New(localDb)
 
-	srv := doctormonitor.New(clients, localRepository)
-	handler := server.New(srv)
+	srvRegistrator := doctormonitor.NewRegistrator(localRepository)
+	srvChecker := doctormonitor.NewChecker(clients, localRepository)
+	handler := server.New(srvRegistrator, srvChecker)
 
 	r := mux.NewRouter()
 	r.HandleFunc("/registration", handler.ResourceRegister).Methods(http.MethodPost)

@@ -1,6 +1,7 @@
 package doctormonitor
 
 import (
+	"HealthMonitor/platform/errors"
 	"HealthMonitor/server/service"
 	"HealthMonitor/server/service/client"
 	"HealthMonitor/server/service/repository"
@@ -12,35 +13,14 @@ type doctorMonitor struct {
 	local   repository.Repository
 }
 
-func New(clients map[string]client.Client, local repository.Repository) *doctorMonitor {
+func NewChecker(clients map[string]client.Client, local repository.Repository) *doctorMonitor {
 	return &doctorMonitor{
 		clients: clients,
 		local:   local,
 	}
 }
 
-func (dm *doctorMonitor) Register(resource *service.Request) error {
-	res := &repository.Resource{
-		Type:   resource.Type,
-		Name:   resource.Name,
-		Handle: resource.Handle,
-	}
-	err := dm.local.SaveMonitor(res)
-	if err != nil {
-		return err
-	}
-
-	if resource.Critical {
-		err = dm.local.SaveCriticalResource(res)
-		if err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (dm *doctorMonitor) Check() (*service.Response, error) {
+func (dm *doctorMonitor) Check() (*service.Response, errors.Error) {
 	monitors, err := dm.local.GetMonitors()
 	if err != nil {
 		return nil, err
@@ -52,7 +32,7 @@ func (dm *doctorMonitor) Check() (*service.Response, error) {
 	wg.Add(n)
 
 	for _, monitor := range monitors.Item {
-		go dm.catchClientResponse(channel, monitor, &wg)
+		go dm.checkClientsHealth(channel, monitor, &wg)
 	}
 
 	wg.Wait()
@@ -61,26 +41,27 @@ func (dm *doctorMonitor) Check() (*service.Response, error) {
 	return dm.buildServiceResponse(channel)
 }
 
-func (dm *doctorMonitor) catchClientResponse(channel chan<- *service.ClientResponses, monitor repository.Resource, sync *sync.WaitGroup) {
+func (dm *doctorMonitor) checkClientsHealth(channel chan<- *service.ClientResponses, monitor repository.Resource, sync *sync.WaitGroup) {
 	defer sync.Done()
 	clientResponse, err := dm.clients[monitor.Type].Ping(monitor.Name)
 	if err != nil {
 		channel <- &service.ClientResponses{
-			ResourceName: monitor.Name,
-			Code:         err.Code,
+			ResourceName: monitor.Type,
 			Failed:       true,
-			Message:      err.Message,
+			Code:         err.Code(),
+			Message:      err.Message(),
 		}
+		return
 	}
 
 	channel <- &service.ClientResponses{
-		ResourceName: clientResponse.ResourceName,
+		ResourceName: monitor.Type,
 		Code:         clientResponse.Code,
 		Message:      clientResponse.Status,
 	}
 }
 
-func (dm *doctorMonitor) buildServiceResponse(channel <-chan *service.ClientResponses) (*service.Response, error) {
+func (dm *doctorMonitor) buildServiceResponse(channel <-chan *service.ClientResponses) (*service.Response, errors.Error) {
 	var response service.Response
 	for cliResp := range channel {
 		response.ClientResponses = append(response.ClientResponses, cliResp)
@@ -89,8 +70,5 @@ func (dm *doctorMonitor) buildServiceResponse(channel <-chan *service.ClientResp
 		}
 	}
 
-	if len(response.Failed) > 0 {
-		response.Status = 206
-	}
 	return &response, nil
 }

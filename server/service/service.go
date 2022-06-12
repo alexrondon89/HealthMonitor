@@ -1,26 +1,30 @@
 package service
 
-type HealthMonitor interface {
-	Register(*Request) error //monitor
-	Check() (*Response, error)
+import "HealthMonitor/platform/errors"
+
+type HealthMonitorRegister interface {
+	Register(*Request) (*Response, errors.Error)
 }
 
+type HealthMonitorCheck interface {
+	Check() (*Response, errors.Error)
+}
 type Request struct {
-	Type     string `json:"type"`
-	Name     string `json:"name"`
-	Handle   string `json:"handle"`
-	Critical bool   `json:"critical"`
+	Type     string `json:"type,required"`
+	Name     string `json:"name,required"`
+	Handle   string `json:"handle,required"`
+	Critical bool   `json:"critical,required"`
 }
 
 type Response struct {
-	ClientResponses []*ClientResponses
-	Failed          []string
-	Status          int
+	ClientResponses []*ClientResponses `json:"clients,omitempty"`
+	Failed          []string           `json:"failed,omitempty"`
+	Message         string             `json:"message,omitempty"`
 }
 
 type ClientResponses struct {
-	ResourceName string
-	Code         int
-	Failed       bool
-	Message      string
+	ResourceName string `json:"resourceName,omitempty"`
+	Code         int    `json:"code,omitempty"`
+	Failed       bool   `json:"failed,omitempty"`
+	Message      string `json:"message,omitempty"`
 }

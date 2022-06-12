@@ -5,19 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8de4d4b1-e9c6-4358-8d7f-52f3d64afb1a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/service/client/postgresClient/postgresClient.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/service/client/postgresPool/postgresPool.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/service/doctormonitor/doctorRegister.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmd/app/app.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/app/app.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/platform/db/local/local.go" beforeDir="false" afterPath="$PROJECT_DIR$/platform/db/local/local.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platform/errors/http.go" beforeDir="false" afterPath="$PROJECT_DIR$/platform/errors/http.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/handler.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/service/client/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/client/client.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/service/client/elastic/elastic.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/client/elastic/elastic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/service/client/postgresClient/postgresClient.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/client/postgresClient/postgresClient.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/service/client/postgresPool/postgresPool.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/client/postgresPool/postgresPool.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/service/client/postgresPromise/postgresPromise.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/client/postgresPromise/postgresPromise.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/service/client/redis/redis.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/client/redis/redis.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/service/client/serviceUrl/serviceUrl.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/client/serviceUrl/serviceUrl.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/service/doctormonitor/doctorMonitor.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/doctormonitor/doctorMonitor.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/service/doctormonitor/doctorMonitor.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/doctormonitor/doctorCheck.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/service/repository/local/local.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/repository/local/local.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/service/repository/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/repository/repository.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/service/service.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/service.go" afterDir="false" />
@@ -59,12 +62,13 @@
     "RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed": "true",
     "WebServerToolWindowFactoryState": "false",
     "go.import.settings.migrated": "true",
-    "last_opened_file_path": "/Users/cristhian/go/src/HealthMonitor/server/service/client/postgresPool",
+    "last_opened_file_path": "/Users/cristhian/go/src/HealthMonitor/server/service/doctormonitor",
     "settings.editor.selected.configurable": "go.vgo"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/server/service/doctormonitor" />
       <recent name="$PROJECT_DIR$/server/service/client/postgresPool" />
       <recent name="$PROJECT_DIR$/server/service/client/postgresClient" />
     </key>
@@ -110,34 +114,19 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/server/service/doctormonitor/doctorMonitor.go</url>
-          <line>38</line>
-          <option name="timeStamp" value="1" />
+          <url>file://$PROJECT_DIR$/server/service/client/serviceUrl/serviceUrl.go</url>
+          <line>17</line>
+          <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/server/service/doctormonitor/doctorMonitor.go</url>
+          <url>file://$PROJECT_DIR$/server/service/doctormonitor/doctorCheck.go</url>
           <line>45</line>
-          <option name="timeStamp" value="6" />
+          <option name="timeStamp" value="18" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/server/service/doctormonitor/doctorMonitor.go</url>
-          <line>53</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/server/service/doctormonitor/doctorMonitor.go</url>
-          <line>65</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/server/service/doctormonitor/doctorMonitor.go</url>
-          <line>54</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/server/service/doctormonitor/doctorMonitor.go</url>
-          <line>48</line>
-          <option name="timeStamp" value="11" />
+          <url>file://$PROJECT_DIR$/server/service/doctormonitor/doctorCheck.go</url>
+          <line>56</line>
+          <option name="timeStamp" value="19" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

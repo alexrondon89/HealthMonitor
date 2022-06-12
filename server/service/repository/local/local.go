@@ -2,6 +2,7 @@ package local
 
 import (
 	"HealthMonitor/platform/db/local"
+	"HealthMonitor/platform/errors"
 	"HealthMonitor/server/service/repository"
 )
 
@@ -15,28 +16,32 @@ func New(db *local.DB) *localRepository {
 	}
 }
 
-func (lr *localRepository) SaveMonitor(input *repository.Resource) error {
+func (lr *localRepository) SaveMonitor(input *repository.Resource) errors.Error {
 	err := lr.db.SaveMonitor(input.Handle, input.Name, input.Type)
 	if err != nil {
-		return err
+		return errors.ServiceInternalError(err.Error())
 	}
 
 	return nil
 }
 
-func (lr *localRepository) SaveCriticalResource(input *repository.Resource) error {
+func (lr *localRepository) SaveCriticalResource(input *repository.Resource) errors.Error {
 	err := lr.db.SaveCriticalResources(input.Name)
 	if err != nil {
-		return err
+		return errors.ServiceInternalError(err.Error())
 	}
 
 	return nil
 }
 
-func (lr *localRepository) GetMonitors() (*repository.Monitors, error) {
+func (lr *localRepository) GetMonitors() (*repository.Monitors, errors.Error) {
 	items, err := lr.db.GetMonitors()
 	if err != nil {
-		return nil, err
+		return nil, errors.ServiceInternalError(err.Error())
+	}
+
+	if len(items) == 0 {
+		return nil, errors.CustomError("there are not resources to check", 200)
 	}
 
 	var resp []repository.Resource

@@ -1,9 +1,11 @@
 package repository
 
+import "HealthMonitor/platform/errors"
+
 type Repository interface {
-	SaveCriticalResource(*Resource) error
-	SaveMonitor(*Resource) error
-	GetMonitors() (*Monitors, error)
+	SaveCriticalResource(*Resource) errors.Error
+	SaveMonitor(*Resource) errors.Error
+	GetMonitors() (*Monitors, errors.Error)
 }
 
 type Resource struct {

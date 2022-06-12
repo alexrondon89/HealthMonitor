@@ -3,11 +3,10 @@ package client
 import "HealthMonitor/platform/errors"
 
 type Client interface {
-	Ping(string) (*Response, *errors.CustomError)
+	Ping(string) (*Response, errors.Error)
 }
 
 type Response struct {
-	ResourceName string
-	Status       string
-	Code         int
+	Status string
+	Code   int
 }
