@@ -5,6 +5,7 @@ import (
 	"HealthMonitor/server/service"
 	"HealthMonitor/server/service/client"
 	"HealthMonitor/server/service/repository"
+	"fmt"
 	"sync"
 )
 
@@ -43,6 +44,18 @@ func (dm *doctorMonitor) Check() (*service.Response, errors.Error) {
 
 func (dm *doctorMonitor) checkClientsHealth(channel chan<- *service.ClientResponses, monitor repository.Resource, sync *sync.WaitGroup) {
 	defer sync.Done()
+
+	if _, ok := dm.clients[monitor.Type]; !ok {
+		err := errors.ServiceInternalError(fmt.Sprintf("client not exist for monitor %s", monitor.Type))
+		channel <- &service.ClientResponses{
+			ResourceName: monitor.Type,
+			Failed:       true,
+			Code:         err.GetCode(),
+			Message:      err.GetMessage(),
+		}
+		return
+	}
+
 	clientResponse, err := dm.clients[monitor.Type].Ping(monitor.Name)
 	if err != nil {
 		channel <- &service.ClientResponses{
