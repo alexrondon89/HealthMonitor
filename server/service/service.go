@@ -13,6 +13,14 @@ type Request struct {
 }
 
 type Response struct {
-	Status int
-	Failed []string
+	ClientResponses []*ClientResponses
+	Failed          []string
+	Status          int
+}
+
+type ClientResponses struct {
+	ResourceName string
+	Code         int
+	Failed       bool
+	Message      string
 }

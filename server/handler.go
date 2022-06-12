@@ -11,10 +11,6 @@ type handler struct {
 	service service.HealthMonitor
 }
 
-type Response struct {
-	Message string
-}
-
 func New(srv service.HealthMonitor) *handler {
 	return &handler{
 		service: srv,
@@ -33,17 +29,23 @@ func (h *handler) ResourceRegister(rw http.ResponseWriter, r *http.Request) {
 
 	err := h.service.Register(&req)
 	if err != nil {
-		buildResponse(rw, err, 500)
+		buildResponse(rw, err, http.StatusInternalServerError)
 		return
 	}
 
-	resp := Response{Message: "monitor added..."}
-	buildResponse(rw, resp, 200)
+	buildResponse(rw, nil, http.StatusOK)
 	return
 }
 
-func (h *handler) HealthCheck(w http.ResponseWriter, r *http.Request) {
-	//_ = h.service.Check()
+func (h *handler) HealthCheck(rw http.ResponseWriter, r *http.Request) {
+	resp, err := h.service.Check()
+	if err != nil {
+		buildResponse(rw, err, http.StatusInternalServerError)
+		return
+	}
+
+	buildResponse(rw, resp, http.StatusOK)
+	return
 }
 
 func buildResponse(rw http.ResponseWriter, body interface{}, httpStatus int) {

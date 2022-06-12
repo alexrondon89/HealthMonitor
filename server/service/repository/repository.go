@@ -1,13 +1,17 @@
 package repository
 
 type Repository interface {
-	SaveCriticalResource(string) error
-	SaveMonitor(Input) error
+	SaveCriticalResource(*Resource) error
+	SaveMonitor(*Resource) error
+	GetMonitors() (*Monitors, error)
 }
 
-type Input struct {
-	Type     string
-	Name     string
-	Handle   string
-	Critical bool
+type Resource struct {
+	Type   string
+	Name   string
+	Handle string
+}
+
+type Monitors struct {
+	Item []Resource
 }

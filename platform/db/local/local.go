@@ -1,14 +1,44 @@
 package local
 
-type Monitors map[string]interface{}
-type CriticalResources []string
+import (
+	"errors"
+	"fmt"
+)
 
-func LocalMonitor() Monitors {
-	lm := make(Monitors)
-	return lm
+type DB struct {
+	monitors          []Monitor
+	criticalResources []string
 }
 
-func LocalCriticalResources() CriticalResources {
-	var cr []string
-	return cr
+type Monitor struct {
+	Type   string
+	Name   string
+	Handle string
+}
+
+func New() *DB {
+	return &DB{
+		monitors:          []Monitor{},
+		criticalResources: []string{},
+	}
+}
+
+func (ldb *DB) SaveMonitor(handle string, name string, typ string) error {
+	ldb.monitors = append(ldb.monitors, Monitor{Type: typ, Name: name, Handle: handle})
+	fmt.Println("monitores....", ldb.monitors)
+	return nil
+}
+
+func (ldb *DB) SaveCriticalResources(value string) error {
+	ldb.criticalResources = append(ldb.criticalResources, value)
+	fmt.Println("criticalResources....", ldb.monitors)
+
+	return nil
+}
+
+func (ldb *DB) GetMonitors() ([]Monitor, error) {
+	if len(ldb.monitors) == 0 {
+		return nil, errors.New("there are not resources to check")
+	}
+	return ldb.monitors, nil
 }

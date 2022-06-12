@@ -1,32 +1,55 @@
 package local
 
 import (
-	localDb "HealthMonitor/platform/db/local"
+	"HealthMonitor/platform/db/local"
 	"HealthMonitor/server/service/repository"
-	"fmt"
 )
 
-type local struct {
-	monitors          localDb.Monitors
-	criticalResources localDb.CriticalResources
+type localRepository struct {
+	db *local.DB
 }
 
-func New() *local {
-	return &local{
-		monitors:          localDb.LocalMonitor(),
-		criticalResources: localDb.LocalCriticalResources(),
+func New(db *local.DB) *localRepository {
+	return &localRepository{
+		db: db,
 	}
 }
 
-func (l *local) SaveMonitor(req repository.Input) error {
-	value := map[string]string{req.Name: req.Handle}
-	l.monitors[req.Type] = value
-	fmt.Println("monitores....", l.monitors)
+func (lr *localRepository) SaveMonitor(input *repository.Resource) error {
+	err := lr.db.SaveMonitor(input.Handle, input.Name, input.Type)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
-func (l *local) SaveCriticalResource(name string) error {
-	l.criticalResources = append(l.criticalResources, name)
-	fmt.Println("criticalResources....", l.criticalResources)
+func (lr *localRepository) SaveCriticalResource(input *repository.Resource) error {
+	err := lr.db.SaveCriticalResources(input.Name)
+	if err != nil {
+		return err
+	}
+
 	return nil
+}
+
+func (lr *localRepository) GetMonitors() (*repository.Monitors, error) {
+	items, err := lr.db.GetMonitors()
+	if err != nil {
+		return nil, err
+	}
+
+	var resp []repository.Resource
+	for _, item := range items {
+		monitor := repository.Resource{
+			Type:   item.Type,
+			Name:   item.Name,
+			Handle: item.Handle,
+		}
+		resp = append(resp, monitor)
+	}
+
+	return &repository.Monitors{
+		Item: resp,
+	}, nil
 }

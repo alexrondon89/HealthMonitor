@@ -1,8 +1,12 @@
 package app
 
 import (
+	localDb "HealthMonitor/platform/db/local"
 	"HealthMonitor/server"
+	"HealthMonitor/server/service/client"
 	"HealthMonitor/server/service/client/elastic"
+	"HealthMonitor/server/service/client/postgresClient"
+	"HealthMonitor/server/service/client/postgresPool"
 	"HealthMonitor/server/service/client/postgresPromise"
 	"HealthMonitor/server/service/client/redis"
 	"HealthMonitor/server/service/client/serviceUrl"
@@ -14,13 +18,18 @@ import (
 )
 
 func Start() {
+	clients := make(map[string]client.Client)
+	clients["serviceUrl"] = serviceUrl.New()
+	clients["redisClient"] = redis.New()
+	clients["elasticsearchClient"] = elastic.New()
+	clients["postgresPromiseClient"] = postgresPromise.New()
+	clients["postgresClient"] = postgresClient.New()
+	clients["postgresPool"] = postgresPool.New()
 
-	elasticCli := elastic.New()
-	postgresPromiseCli := postgresPromise.New()
-	redisCli := redis.New()
-	serviceUrlCli := serviceUrl.New()
-	localRepository := local.New()
-	srv := doctormonitor.New(elasticCli, postgresPromiseCli, redisCli, serviceUrlCli, localRepository)
+	localDb := localDb.New()
+	localRepository := local.New(localDb)
+
+	srv := doctormonitor.New(clients, localRepository)
 	handler := server.New(srv)
 
 	r := mux.NewRouter()
