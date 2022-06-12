@@ -9,11 +9,12 @@ type HealthMonitorRegister interface {
 type HealthMonitorCheck interface {
 	Check() (*Response, errors.Error)
 }
+
 type Request struct {
-	Type     string `json:"type,required"`
-	Name     string `json:"name,required"`
-	Handle   string `json:"handle,required"`
-	Critical bool   `json:"critical,required"`
+	Type     *string `json:"type" validate:"required"`
+	Name     *string `json:"name" validate:"required"`
+	Handle   *string `json:"handle" validate:"required"`
+	Critical *bool   `json:"critical" validate:"required"`
 }
 
 type Response struct {

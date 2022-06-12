@@ -4,6 +4,7 @@ import (
 	"HealthMonitor/platform/errors"
 	"HealthMonitor/server/service"
 	"encoding/json"
+	"github.com/go-playground/validator/v10"
 	"net/http"
 )
 
@@ -21,17 +22,21 @@ func New(srvRegister service.HealthMonitorRegister, srvCheck service.HealthMonit
 
 func (h *handler) ResourceRegister(rw http.ResponseWriter, r *http.Request) {
 	var req service.Request
-	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&req); err != nil {
+	defer r.Body.Close()
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		bodyResponse := errors.ServiceInternalError(err.Error())
-		buildResponse(rw, bodyResponse, bodyResponse.Code())
+		buildResponse(rw, bodyResponse, bodyResponse.GetCode())
 		return
 	}
-	defer r.Body.Close()
+
+	if err := validateRequest(&req); err != nil {
+		buildResponse(rw, err, err.GetCode())
+		return
+	}
 
 	resp, err := h.srvRegister.Register(&req)
 	if err != nil {
-		buildResponse(rw, err, err.Code())
+		buildResponse(rw, err, err.GetCode())
 		return
 	}
 
@@ -42,7 +47,7 @@ func (h *handler) ResourceRegister(rw http.ResponseWriter, r *http.Request) {
 func (h *handler) HealthCheck(rw http.ResponseWriter, r *http.Request) {
 	resp, err := h.srvCheck.Check()
 	if err != nil {
-		buildResponse(rw, err, err.Code())
+		buildResponse(rw, err, err.GetCode())
 		return
 	}
 
@@ -55,6 +60,14 @@ func (h *handler) HealthCheck(rw http.ResponseWriter, r *http.Request) {
 	return
 }
 
+func validateRequest(req *service.Request) errors.Error {
+	validate := validator.New()
+	err := validate.Struct(req)
+	if err != nil {
+		return errors.BadRequestError(err.Error())
+	}
+	return nil
+}
 func buildResponse(rw http.ResponseWriter, body interface{}, httpStatus int) {
 	rw.Header().Add("Content-Type", "application/json")
 	rw.WriteHeader(httpStatus)

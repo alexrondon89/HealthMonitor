@@ -24,7 +24,7 @@ func (dm *doctorRegister) Register(resource *service.Request) (*service.Response
 		return nil, err
 	}
 
-	if resource.Critical {
+	if *resource.Critical {
 		err = dm.local.SaveCriticalResource(req)
 		if err != nil {
 			return nil, err
@@ -37,14 +37,14 @@ func (dm *doctorRegister) Register(resource *service.Request) (*service.Response
 
 func (dm *doctorRegister) buildRequest(resource *service.Request) *repository.Resource {
 	return &repository.Resource{
-		Type:   resource.Type,
-		Name:   resource.Name,
-		Handle: resource.Handle,
+		Type:   *resource.Type,
+		Name:   *resource.Name,
+		Handle: *resource.Handle,
 	}
 }
 
 func (dm *doctorRegister) buildResponse(resource *service.Request) *service.Response {
 	return &service.Response{
-		Message: fmt.Sprintf("monitor %s with name %s registered successfully", resource.Type, resource.Name),
+		Message: fmt.Sprintf("monitor %s with name %s registered successfully", *resource.Type, *resource.Name),
 	}
 }

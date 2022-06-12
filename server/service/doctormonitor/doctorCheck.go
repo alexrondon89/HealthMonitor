@@ -48,8 +48,8 @@ func (dm *doctorMonitor) checkClientsHealth(channel chan<- *service.ClientRespon
 		channel <- &service.ClientResponses{
 			ResourceName: monitor.Type,
 			Failed:       true,
-			Code:         err.Code(),
-			Message:      err.Message(),
+			Code:         err.GetCode(),
+			Message:      err.GetMessage(),
 		}
 		return
 	}

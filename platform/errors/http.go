@@ -3,66 +3,86 @@ package errors
 import "net/http"
 
 type Error interface {
-	Message() string
-	Code() int
+	GetMessage() string
+	GetCode() int
 }
 
 type serviceUnavailableError struct {
-	message string
-	code    int
+	Msg      string `json:"message,omitempty"`
+	CodeHttp int    `json:"code,omitempty"`
 }
 
 func ServiceUnavailableError(message string) *serviceUnavailableError {
 	return &serviceUnavailableError{
-		message: message,
-		code:    http.StatusServiceUnavailable,
+		Msg:      message,
+		CodeHttp: http.StatusServiceUnavailable,
 	}
 }
 
-func (su *serviceUnavailableError) Message() string {
-	return su.message
+func (su *serviceUnavailableError) GetMessage() string {
+	return su.Msg
 }
 
-func (su *serviceUnavailableError) Code() int {
-	return su.code
+func (su *serviceUnavailableError) GetCode() int {
+	return su.CodeHttp
 }
 
 type serviceInternalError struct {
-	message string
-	code    int
+	Msg      string `json:"message,omitempty"`
+	CodeHttp int    `json:"code,omitempty"`
 }
 
 func ServiceInternalError(message string) *serviceInternalError {
 	return &serviceInternalError{
-		message: message,
-		code:    http.StatusInternalServerError,
+		Msg:      message,
+		CodeHttp: http.StatusInternalServerError,
 	}
 }
 
-func (su *serviceInternalError) Message() string {
-	return su.message
+func (si *serviceInternalError) GetMessage() string {
+	return si.Msg
 }
 
-func (su *serviceInternalError) Code() int {
-	return su.code
+func (si *serviceInternalError) GetCode() int {
+	return si.CodeHttp
 }
 
 type customError struct {
-	message string
-	code    int
+	Msg      string `json:"message,omitempty"`
+	CodeHttp int    `json:"code,omitempty"`
 }
 
 func CustomError(message string, code int) *customError {
 	return &customError{
-		message: message,
-		code:    code,
+		Msg:      message,
+		CodeHttp: code,
 	}
 }
 
-func (su *customError) Message() string {
-	return su.message
+func (ce *customError) GetMessage() string {
+	return ce.Msg
 }
 
-func (su *customError) Code() int {
-	return su.code
+func (ce *customError) GetCode() int {
+	return ce.CodeHttp
+}
+
+type badRequestError struct {
+	Msg      string `json:"message,omitempty"`
+	CodeHttp int    `json:"code,omitempty"`
+}
+
+func BadRequestError(message string) *badRequestError {
+	return &badRequestError{
+		Msg:      message,
+		CodeHttp: http.StatusBadRequest,
+	}
+}
+
+func (br *badRequestError) GetMessage() string {
+	return br.Msg
+}
+
+func (br *badRequestError) GetCode() int {
+	return br.CodeHttp
 }
