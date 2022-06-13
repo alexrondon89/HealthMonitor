@@ -5,8 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8de4d4b1-e9c6-4358-8d7f-52f3d64afb1a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/server/service/client/mock/mock.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/service/doctormonitor/check_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/service/doctormonitor/register_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/service/repository/mock/mock.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/service/doctormonitor/doctorCheck.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/doctormonitor/doctorCheck.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platform/errors/http.go" beforeDir="false" afterPath="$PROJECT_DIR$/platform/errors/http.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/service/doctormonitor/doctorCheck.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/doctormonitor/check.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/service/doctormonitor/doctorRegister.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/doctormonitor/register.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,12 +54,13 @@
     "RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed": "true",
     "WebServerToolWindowFactoryState": "false",
     "go.import.settings.migrated": "true",
-    "last_opened_file_path": "/Users/cristhian/go/src/HealthMonitor/server/service/doctormonitor",
+    "last_opened_file_path": "/Users/cristhian/go/src/HealthMonitor/server/service/repository/mock",
     "settings.editor.selected.configurable": "go.vgo"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/server/service/repository/mock" />
       <recent name="$PROJECT_DIR$/server/service/doctormonitor" />
       <recent name="$PROJECT_DIR$/server/service/client/postgresPool" />
       <recent name="$PROJECT_DIR$/server/service/client/postgresClient" />
@@ -59,19 +69,74 @@
       <recent name="$PROJECT_DIR$/cmd" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration name="go build HealthMonitor/cmd" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Go Test.TestCheckService in HealthMonitor/server/service/doctormonitor">
+    <configuration name="TestCheckService in HealthMonitor/server/service/doctormonitor" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="HealthMonitor" />
-      <working_directory value="$PROJECT_DIR$" />
+      <working_directory value="$PROJECT_DIR$/server/service/doctormonitor" />
+      <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="HealthMonitor/cmd" />
+      <package value="HealthMonitor/server/service/doctormonitor" />
       <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/cmd/main.go" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestCheckService\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestCheckService/method_GetMonitors_must_fail_getting_monitors in HealthMonitor/server/service/doctormonitor" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="HealthMonitor" />
+      <working_directory value="$PROJECT_DIR$/server/service/doctormonitor" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="HealthMonitor/server/service/doctormonitor" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestCheckService\E$/^\Qmethod_GetMonitors_must_fail_getting_monitors\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestCheckService/method_Ping_in_client_throw_error_for_a_monitor_type in HealthMonitor/server/service/doctormonitor" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="HealthMonitor" />
+      <working_directory value="$PROJECT_DIR$/server/service/doctormonitor" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="HealthMonitor/server/service/doctormonitor" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestCheckService\E$/^\Qmethod_Ping_in_client_throw_error_for_a_monitor_type\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestCheckService/method_checkClientsHealth_must_fail_due_to_not_exist_client_for_monitor_type in HealthMonitor/server/service/doctormonitor" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="HealthMonitor" />
+      <working_directory value="$PROJECT_DIR$/server/service/doctormonitor" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="HealthMonitor/server/service/doctormonitor" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestCheckService\E$/^\Qmethod_checkClientsHealth_must_fail_due_to_not_exist_client_for_monitor_type\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestRegisterService in HealthMonitor/server/service/doctormonitor" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="HealthMonitor" />
+      <working_directory value="$PROJECT_DIR$/server/service/doctormonitor" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="HealthMonitor/server/service/doctormonitor" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestRegisterService\E$" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Build.go build HealthMonitor/cmd" />
+        <item itemvalue="Go Test.TestCheckService in HealthMonitor/server/service/doctormonitor" />
+        <item itemvalue="Go Test.TestCheckService/method_Ping_in_client_throw_error_for_a_monitor_type in HealthMonitor/server/service/doctormonitor" />
+        <item itemvalue="Go Test.TestCheckService/method_checkClientsHealth_must_fail_due_to_not_exist_client_for_monitor_type in HealthMonitor/server/service/doctormonitor" />
+        <item itemvalue="Go Test.TestRegisterService in HealthMonitor/server/service/doctormonitor" />
+        <item itemvalue="Go Test.TestCheckService/method_GetMonitors_must_fail_getting_monitors in HealthMonitor/server/service/doctormonitor" />
       </list>
     </recent_temporary>
   </component>
@@ -102,11 +167,19 @@
           <option name="timeStamp" value="23" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/server/service/doctormonitor/doctorRegister.go</url>
+          <url>file://$PROJECT_DIR$/server/service/doctormonitor/register.go</url>
           <line>21</line>
           <option name="timeStamp" value="25" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/server/service/repository/local/local.go</url>
+          <line>37</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/HealthMonitor$TestRegisterService_in_HealthMonitor_server_service_doctormonitor.out" NAME="TestRegisterService in HealthMonitor/server/service/doctormonitor Coverage Results" MODIFIED="1655078366828" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

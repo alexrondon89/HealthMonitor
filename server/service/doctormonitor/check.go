@@ -9,19 +9,19 @@ import (
 	"sync"
 )
 
-type doctorMonitor struct {
+type doctorCheck struct {
 	clients map[string]client.Client
 	local   repository.Repository
 }
 
-func NewChecker(clients map[string]client.Client, local repository.Repository) *doctorMonitor {
-	return &doctorMonitor{
+func NewChecker(clients map[string]client.Client, local repository.Repository) *doctorCheck {
+	return &doctorCheck{
 		clients: clients,
 		local:   local,
 	}
 }
 
-func (dm *doctorMonitor) Check() (*service.Response, errors.Error) {
+func (dm *doctorCheck) Check() (*service.Response, errors.Error) {
 	monitors, err := dm.local.GetMonitors()
 	if err != nil {
 		return nil, err
@@ -42,7 +42,7 @@ func (dm *doctorMonitor) Check() (*service.Response, errors.Error) {
 	return dm.buildServiceResponse(channel)
 }
 
-func (dm *doctorMonitor) checkClientsHealth(channel chan<- *service.ClientResponses, monitor repository.Resource, sync *sync.WaitGroup) {
+func (dm *doctorCheck) checkClientsHealth(channel chan<- *service.ClientResponses, monitor repository.Resource, sync *sync.WaitGroup) {
 	defer sync.Done()
 
 	if _, ok := dm.clients[monitor.Type]; !ok {
@@ -50,8 +50,8 @@ func (dm *doctorMonitor) checkClientsHealth(channel chan<- *service.ClientRespon
 		channel <- &service.ClientResponses{
 			ResourceName: monitor.Type,
 			Failed:       true,
-			Code:         err.GetCode(),
-			Message:      err.GetMessage(),
+			Code:         err.Code(),
+			Message:      err.Message(),
 		}
 		return
 	}
@@ -61,8 +61,8 @@ func (dm *doctorMonitor) checkClientsHealth(channel chan<- *service.ClientRespon
 		channel <- &service.ClientResponses{
 			ResourceName: monitor.Type,
 			Failed:       true,
-			Code:         err.GetCode(),
-			Message:      err.GetMessage(),
+			Code:         err.Code(),
+			Message:      err.Message(),
 		}
 		return
 	}
@@ -74,7 +74,7 @@ func (dm *doctorMonitor) checkClientsHealth(channel chan<- *service.ClientRespon
 	}
 }
 
-func (dm *doctorMonitor) buildServiceResponse(channel <-chan *service.ClientResponses) (*service.Response, errors.Error) {
+func (dm *doctorCheck) buildServiceResponse(channel <-chan *service.ClientResponses) (*service.Response, errors.Error) {
 	var response service.Response
 	for cliResp := range channel {
 		response.ClientResponses = append(response.ClientResponses, cliResp)

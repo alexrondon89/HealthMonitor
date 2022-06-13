@@ -3,8 +3,8 @@ package errors
 import "net/http"
 
 type Error interface {
-	GetMessage() string
-	GetCode() int
+	Message() string
+	Code() int
 }
 
 type serviceUnavailableError struct {
@@ -19,11 +19,11 @@ func ServiceUnavailableError(message string) *serviceUnavailableError {
 	}
 }
 
-func (su *serviceUnavailableError) GetMessage() string {
+func (su *serviceUnavailableError) Message() string {
 	return su.Msg
 }
 
-func (su *serviceUnavailableError) GetCode() int {
+func (su *serviceUnavailableError) Code() int {
 	return su.CodeHttp
 }
 
@@ -39,11 +39,11 @@ func ServiceInternalError(message string) *serviceInternalError {
 	}
 }
 
-func (si *serviceInternalError) GetMessage() string {
+func (si *serviceInternalError) Message() string {
 	return si.Msg
 }
 
-func (si *serviceInternalError) GetCode() int {
+func (si *serviceInternalError) Code() int {
 	return si.CodeHttp
 }
 
@@ -59,11 +59,11 @@ func CustomError(message string, code int) *customError {
 	}
 }
 
-func (ce *customError) GetMessage() string {
+func (ce *customError) Message() string {
 	return ce.Msg
 }
 
-func (ce *customError) GetCode() int {
+func (ce *customError) Code() int {
 	return ce.CodeHttp
 }
 
@@ -79,10 +79,10 @@ func BadRequestError(message string) *badRequestError {
 	}
 }
 
-func (br *badRequestError) GetMessage() string {
+func (br *badRequestError) Message() string {
 	return br.Msg
 }
 
-func (br *badRequestError) GetCode() int {
+func (br *badRequestError) Code() int {
 	return br.CodeHttp
 }

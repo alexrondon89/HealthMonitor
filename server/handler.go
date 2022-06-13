@@ -25,18 +25,18 @@ func (h *handler) ResourceRegister(rw http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		bodyResponse := errors.ServiceInternalError(err.Error())
-		buildResponse(rw, bodyResponse, bodyResponse.GetCode())
+		buildResponse(rw, bodyResponse, bodyResponse.Code())
 		return
 	}
 
 	if err := validateRequest(&req); err != nil {
-		buildResponse(rw, err, err.GetCode())
+		buildResponse(rw, err, err.Code())
 		return
 	}
 
 	resp, err := h.srvRegister.Register(&req)
 	if err != nil {
-		buildResponse(rw, err, err.GetCode())
+		buildResponse(rw, err, err.Code())
 		return
 	}
 
@@ -47,7 +47,7 @@ func (h *handler) ResourceRegister(rw http.ResponseWriter, r *http.Request) {
 func (h *handler) HealthCheck(rw http.ResponseWriter, r *http.Request) {
 	resp, err := h.srvCheck.Check()
 	if err != nil {
-		buildResponse(rw, err, err.GetCode())
+		buildResponse(rw, err, err.Code())
 		return
 	}
 
