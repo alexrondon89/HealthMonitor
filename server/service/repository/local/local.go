@@ -1,8 +1,10 @@
 package local
 
 import (
+	"net/http"
+
 	"HealthMonitor/platform/db/local"
-	"HealthMonitor/platform/errors"
+	"HealthMonitor/platform/error"
 	"HealthMonitor/server/service/repository"
 )
 
@@ -16,37 +18,35 @@ func New(db *local.DB) *localRepository {
 	}
 }
 
-func (lr *localRepository) SaveMonitor(input *repository.Resource) errors.Error {
-	err := lr.db.SaveMonitor(input.Handle, input.Name, input.Type)
-	if err != nil {
-		return errors.ServiceInternalError(err.Error())
+func (lr *localRepository) SaveMonitor(input *repository.Monitor) error.Error {
+	if err := lr.db.SaveMonitor(input.Handle, input.Name, input.Type); err != nil {
+		return error.ServiceInternal(err.Error())
 	}
 
 	return nil
 }
 
-func (lr *localRepository) SaveCriticalResource(input *repository.Resource) errors.Error {
-	err := lr.db.SaveCriticalResources(input.Name)
-	if err != nil {
-		return errors.ServiceInternalError(err.Error())
+func (lr *localRepository) SaveCriticalResource(input *repository.Monitor) error.Error {
+	if err := lr.db.SaveCriticalResources(input.Name); err != nil {
+		return error.ServiceInternal(err.Error())
 	}
 
 	return nil
 }
 
-func (lr *localRepository) GetMonitors() (*repository.Monitors, errors.Error) {
+func (lr *localRepository) GetMonitors() (*repository.Monitors, error.Error) {
 	items, err := lr.db.GetMonitors()
 	if err != nil {
-		return nil, errors.ServiceInternalError(err.Error())
+		return nil, error.ServiceInternal(err.Error())
 	}
 
 	if len(items) == 0 {
-		return nil, errors.CustomError("there are not resources to check", 200)
+		return nil, error.Custom(`there are not resources to check`, http.StatusOK)
 	}
 
-	var resp []repository.Resource
+	var resp []repository.Monitor
 	for _, item := range items {
-		monitor := repository.Resource{
+		monitor := repository.Monitor{
 			Type:   item.Type,
 			Name:   item.Name,
 			Handle: item.Handle,

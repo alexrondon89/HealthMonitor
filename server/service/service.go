@@ -1,13 +1,13 @@
 package service
 
-import "HealthMonitor/platform/errors"
+import "HealthMonitor/platform/error"
 
 type HealthMonitorRegister interface {
-	Register(*Request) (*Response, errors.Error)
+	Register(*Request) (*Response, error.Error)
 }
 
 type HealthMonitorCheck interface {
-	Check() (*Response, errors.Error)
+	Check() (*Response, error.Error)
 }
 
 type Request struct {
@@ -18,12 +18,12 @@ type Request struct {
 }
 
 type Response struct {
-	ClientResponses []*ClientResponses `json:"clients,omitempty"`
-	Failed          []string           `json:"failed,omitempty"`
-	Message         string             `json:"message,omitempty"`
+	ClientResponses []*ClientResponse `json:"clients,omitempty"`
+	Failed          []string          `json:"failed,omitempty"`
+	Message         string            `json:"message,omitempty"`
 }
 
-type ClientResponses struct {
+type ClientResponse struct {
 	ResourceName string `json:"resourceName,omitempty"`
 	Code         int    `json:"code,omitempty"`
 	Failed       bool   `json:"failed,omitempty"`

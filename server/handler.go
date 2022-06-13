@@ -1,11 +1,13 @@
 package server
 
 import (
-	"HealthMonitor/platform/errors"
-	"HealthMonitor/server/service"
 	"encoding/json"
-	"github.com/go-playground/validator/v10"
 	"net/http"
+
+	"github.com/go-playground/validator/v10"
+
+	"HealthMonitor/platform/error"
+	"HealthMonitor/server/service"
 )
 
 type handler struct {
@@ -24,7 +26,7 @@ func (h *handler) ResourceRegister(rw http.ResponseWriter, r *http.Request) {
 	var req service.Request
 	defer r.Body.Close()
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		bodyResponse := errors.ServiceInternalError(err.Error())
+		bodyResponse := error.ServiceInternal(err.Error())
 		buildResponse(rw, bodyResponse, bodyResponse.Code())
 		return
 	}
@@ -60,11 +62,10 @@ func (h *handler) HealthCheck(rw http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func validateRequest(req *service.Request) errors.Error {
+func validateRequest(req *service.Request) error.Error {
 	validate := validator.New()
-	err := validate.Struct(req)
-	if err != nil {
-		return errors.BadRequestError(err.Error())
+	if err := validate.Struct(req); err != nil {
+		return error.BadRequest(err.Error())
 	}
 	return nil
 }

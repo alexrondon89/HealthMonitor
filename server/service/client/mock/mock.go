@@ -1,9 +1,10 @@
 package mock
 
 import (
-	"HealthMonitor/platform/errors"
-	"HealthMonitor/server/service/client"
 	"github.com/stretchr/testify/mock"
+
+	"HealthMonitor/platform/error"
+	"HealthMonitor/server/service/client"
 )
 
 type mockClient struct {
@@ -14,13 +15,13 @@ func New() *mockClient {
 	return &mockClient{}
 }
 
-func (m *mockClient) Ping(resourceName string) (*client.Response, errors.Error) {
+func (m *mockClient) Ping(resourceName string) (*client.Response, error.Error) {
 	args := m.Called(resourceName)
 	if len(m.ExpectedCalls) == 0 {
 		return nil, nil
 	}
 	if args.Get(0) == nil {
-		return nil, args.Get(1).(errors.Error)
+		return nil, args.Get(1).(error.Error)
 	}
 	return args.Get(0).(*client.Response), nil
 }

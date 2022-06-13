@@ -1,13 +1,15 @@
 package doctormonitor_test
 
 import (
-	"HealthMonitor/platform/errors"
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+
+	"HealthMonitor/platform/error"
 	"HealthMonitor/server/service"
 	"HealthMonitor/server/service/doctormonitor"
 	"HealthMonitor/server/service/repository"
 	"HealthMonitor/server/service/repository/mock"
-	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestRegisterService(t *testing.T) {
@@ -20,7 +22,7 @@ func TestRegisterService(t *testing.T) {
 		repositoryMock := mock.New()
 		register := doctormonitor.NewRegistrator(repositoryMock)
 		reqSrv := &service.Request{Type: &monitorType, Name: &name, Handle: &handler, Critical: &critical}
-		reqRepo := &repository.Resource{Type: monitorType, Name: name, Handle: handler}
+		reqRepo := &repository.Monitor{Type: monitorType, Name: name, Handle: handler}
 		msgExpected := "monitor serviceUrl with name graphql registered successfully"
 
 		repositoryMock.On("SaveMonitor", reqRepo).Return(nil)
@@ -39,11 +41,11 @@ func TestRegisterService(t *testing.T) {
 		repositoryMock := mock.New()
 		register := doctormonitor.NewRegistrator(repositoryMock)
 		reqSrv := &service.Request{Type: &monitorType, Name: &name, Handle: &handler, Critical: &critical}
-		reqRepo := &repository.Resource{Type: monitorType, Name: name, Handle: handler}
+		reqRepo := &repository.Monitor{Type: monitorType, Name: name, Handle: handler}
 		msgExpected := "mock error"
 		codeExpected := 400
 
-		repositoryMock.On("SaveMonitor", reqRepo).Return(errors.CustomError(msgExpected, codeExpected))
+		repositoryMock.On("SaveMonitor", reqRepo).Return(error.Custom(msgExpected, codeExpected))
 
 		response, err := register.Register(reqSrv)
 
@@ -58,12 +60,12 @@ func TestRegisterService(t *testing.T) {
 		repositoryMock := mock.New()
 		register := doctormonitor.NewRegistrator(repositoryMock)
 		reqSrv := &service.Request{Type: &monitorType, Name: &name, Handle: &handler, Critical: &critical}
-		reqRepo := &repository.Resource{Type: monitorType, Name: name, Handle: handler}
+		reqRepo := &repository.Monitor{Type: monitorType, Name: name, Handle: handler}
 		msgExpected := "mock error"
 		codeExpected := 400
 
 		repositoryMock.On("SaveMonitor", reqRepo).Return(nil)
-		repositoryMock.On("SaveCriticalResource", reqRepo).Return(errors.CustomError(msgExpected, codeExpected))
+		repositoryMock.On("SaveCriticalResource", reqRepo).Return(error.Custom(msgExpected, codeExpected))
 
 		response, err := register.Register(reqSrv)
 

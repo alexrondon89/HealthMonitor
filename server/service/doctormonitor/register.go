@@ -1,10 +1,11 @@
 package doctormonitor
 
 import (
-	"HealthMonitor/platform/errors"
+	"fmt"
+
+	"HealthMonitor/platform/error"
 	"HealthMonitor/server/service"
 	"HealthMonitor/server/service/repository"
-	"fmt"
 )
 
 type doctorRegister struct {
@@ -17,34 +18,31 @@ func NewRegistrator(local repository.Repository) *doctorRegister {
 	}
 }
 
-func (dm *doctorRegister) Register(resource *service.Request) (*service.Response, errors.Error) {
+func (dm *doctorRegister) Register(resource *service.Request) (*service.Response, error.Error) {
 	req := dm.buildRequest(resource)
-	err := dm.local.SaveMonitor(req)
-	if err != nil {
+	if err := dm.local.SaveMonitor(req); err != nil {
 		return nil, err
 	}
 
 	if *resource.Critical {
-		err = dm.local.SaveCriticalResource(req)
-		if err != nil {
+		if err := dm.local.SaveCriticalResource(req); err != nil {
 			return nil, err
 		}
 	}
 
-	resp := dm.buildResponse(resource)
-	return resp, nil
+	return dm.buildResponse(resource)
 }
 
-func (dm *doctorRegister) buildRequest(resource *service.Request) *repository.Resource {
-	return &repository.Resource{
+func (dm *doctorRegister) buildRequest(resource *service.Request) *repository.Monitor {
+	return &repository.Monitor{
 		Type:   *resource.Type,
 		Name:   *resource.Name,
 		Handle: *resource.Handle,
 	}
 }
 
-func (dm *doctorRegister) buildResponse(resource *service.Request) *service.Response {
+func (dm *doctorRegister) buildResponse(resource *service.Request) (*service.Response, error.Error) {
 	return &service.Response{
-		Message: fmt.Sprintf("monitor %s with name %s registered successfully", *resource.Type, *resource.Name),
-	}
+		Message: fmt.Sprintf(`monitor %s with name %s registered successfully`, *resource.Type, *resource.Name),
+	}, nil
 }

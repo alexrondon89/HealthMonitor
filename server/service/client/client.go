@@ -1,9 +1,9 @@
 package client
 
-import "HealthMonitor/platform/errors"
+import "HealthMonitor/platform/error"
 
 type Client interface {
-	Ping(string) (*Response, errors.Error)
+	Ping(string) (*Response, error.Error)
 }
 
 type Response struct {

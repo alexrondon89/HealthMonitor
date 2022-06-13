@@ -1,7 +1,12 @@
 package app
 
 import (
-	localDb "HealthMonitor/platform/db/local"
+	"log"
+	"net/http"
+
+	"github.com/gorilla/mux"
+
+	localdb "HealthMonitor/platform/db/local"
 	"HealthMonitor/server"
 	"HealthMonitor/server/service/client"
 	"HealthMonitor/server/service/client/elastic"
@@ -12,9 +17,6 @@ import (
 	"HealthMonitor/server/service/client/serviceUrl"
 	"HealthMonitor/server/service/doctormonitor"
 	"HealthMonitor/server/service/repository/local"
-	"github.com/gorilla/mux"
-	"log"
-	"net/http"
 )
 
 func Start() {
@@ -26,12 +28,12 @@ func Start() {
 	clients["postgresClient"] = postgresClient.New()
 	clients["postgresPool"] = postgresPool.New()
 
-	localDb := localDb.New()
-	localRepository := local.New(localDb)
+	database := localdb.New()
+	localRepository := local.New(database)
 
-	srvRegistrator := doctormonitor.NewRegistrator(localRepository)
-	srvChecker := doctormonitor.NewChecker(clients, localRepository)
-	handler := server.New(srvRegistrator, srvChecker)
+	registrator := doctormonitor.NewRegistrator(localRepository)
+	checker := doctormonitor.NewChecker(clients, localRepository)
+	handler := server.New(registrator, checker)
 
 	r := mux.NewRouter()
 	r.HandleFunc("/registration", handler.ResourceRegister).Methods(http.MethodPost)

@@ -1,7 +1,7 @@
 package local
 
 import (
-	"fmt"
+	"github.com/sirupsen/logrus"
 )
 
 type DB struct {
@@ -23,15 +23,15 @@ func New() *DB {
 }
 
 func (ldb *DB) SaveMonitor(handle string, name string, typ string) error {
-	ldb.monitors = append(ldb.monitors, Monitor{Type: typ, Name: name, Handle: handle})
-	fmt.Println("monitores....", ldb.monitors)
+	monitor := Monitor{Type: typ, Name: name, Handle: handle}
+	ldb.monitors = append(ldb.monitors, monitor)
+	logrus.Info(`monitors....`, ldb.monitors)
 	return nil
 }
 
 func (ldb *DB) SaveCriticalResources(value string) error {
 	ldb.criticalResources = append(ldb.criticalResources, value)
-	fmt.Println("criticalResources....", ldb.monitors)
-
+	logrus.Info(`criticalResources....`, ldb.monitors)
 	return nil
 }
 
