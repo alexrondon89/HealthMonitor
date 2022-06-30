@@ -1,13 +1,11 @@
 package doctormonitor
 
 import (
-	"fmt"
-	"sync"
-
 	"HealthMonitor/platform/error"
 	"HealthMonitor/server/service"
 	"HealthMonitor/server/service/client"
 	"HealthMonitor/server/service/repository"
+	"sync"
 )
 
 type doctorCheck struct {
@@ -31,14 +29,16 @@ func (dm *doctorCheck) Check() (*service.Response, error.Error) {
 	n := len(monitors.Item)
 	wg := &sync.WaitGroup{}
 	wg.Add(n)
-	channel := make(chan *service.ClientResponse, n)
+	channel := make(chan *service.ClientResponse, 1)
 
-	for _, monitor := range monitors.Item {
-		go dm.checkClientsHealth(channel, monitor, wg)
-	}
+	go func() {
+		for _, monitor := range monitors.Item {
+			go dm.checkClientsHealth(channel, monitor, wg)
+		}
+		wg.Wait()
+		close(channel)
+	}()
 
-	wg.Wait()
-	close(channel)
 	return dm.buildResponse(channel)
 }
 
@@ -46,13 +46,6 @@ func (dm *doctorCheck) checkClientsHealth(channel chan<- *service.ClientResponse
 	defer sync.Done()
 
 	if _, ok := dm.clients[monitor.Type]; !ok {
-		err := error.ServiceInternal(fmt.Sprintf(`client not exist for monitor %s`, monitor.Type))
-		channel <- &service.ClientResponse{
-			ResourceName: monitor.Type,
-			Failed:       true,
-			Code:         err.Code(),
-			Message:      err.Message(),
-		}
 		return
 	}
 

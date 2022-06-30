@@ -5,27 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8de4d4b1-e9c6-4358-8d7f-52f3d64afb1a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/HealthMonitor.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/app/app.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/app/app.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platform/db/local/local.go" beforeDir="false" afterPath="$PROJECT_DIR$/platform/db/local/local.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platform/errors/http.go" beforeDir="false" afterPath="$PROJECT_DIR$/platform/error/http.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/service/client/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/client/client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/service/client/elastic/elastic.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/client/elastic/elastic.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/service/client/mock/mock.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/client/mock/mock.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/service/client/postgresClient/postgresClient.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/client/postgresClient/postgresClient.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/service/client/postgresPool/postgresPool.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/client/postgresPool/postgresPool.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/service/client/postgresPromise/postgresPromise.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/client/postgresPromise/postgresPromise.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/service/client/redis/redis.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/client/redis/redis.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/service/client/serviceUrl/serviceUrl.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/client/serviceUrl/serviceUrl.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/service/doctormonitor/check.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/doctormonitor/check.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/service/doctormonitor/check_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/doctormonitor/check_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/service/doctormonitor/register.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/doctormonitor/register.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/service/doctormonitor/register_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/doctormonitor/register_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/service/repository/local/local.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/repository/local/local.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/service/repository/mock/mock.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/repository/mock/mock.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/service/repository/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/repository/repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/service/service.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/service/service.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
